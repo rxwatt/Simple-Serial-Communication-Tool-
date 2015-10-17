@@ -1,7 +1,24 @@
 clc;
 clear;
 
-s = serial('COM2');% set port
+if (0==0)
+    s = serial('COM2');% set port
+else
+    com_ports = ["/dev/ttyACM0";"/dev/ttyACM1"];
+    %com = serial(com_port,'BaudRate',115200,'InputBufferSize',32768,'Timeout',5);
+    %*** Line ABOVE works for MATLAB. Linr BELOW works for OCTAVE ***%
+    try
+        com=serial (com_ports(1,:));
+    catch err
+        try
+            com = serial(com_ports(2,:));
+        catch err
+            Display ("Cannot open serial USBport");
+            break;
+        end_try_catch
+    end_try_catch 
+endif
+
 s.baudrate = 19200;%baud rate
 s.terminator = 'CR';
 
